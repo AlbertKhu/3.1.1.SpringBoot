@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.kata311.SpringBoot.dao.UserDao;
 import ru.kata311.SpringBoot.model.User;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public User findById(Long id) {
         logger.debug("Finding user by id: {}", id);
         return userDao.findById(id);
     }
@@ -53,6 +51,6 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User cannot be null");
         }
         logger.info("Editing user: {}", user);
-        userDao.editUser(user);
+        userDao. editUser(user);
     }
 }

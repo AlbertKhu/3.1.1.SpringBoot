@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata311.SpringBoot.model.User;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -34,16 +33,16 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> findById(Long id) {
+    public User findById(Long id) {
         logger.debug("Finding user by id: {}", id);
-        return Optional.ofNullable(entityManager.find(User.class, id));
+        return entityManager.find(User.class, id);
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
         logger.info("Deleting user with id: {}", id);
-        User user = findById(id).orElse(null);
+        User user = findById(id);
         if (user != null) {
             entityManager.remove(user);
         }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata311.SpringBoot.model.User;
 import ru.kata311.SpringBoot.service.UserService;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -41,31 +40,19 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "adduser";
         }
-
         userService.addUser(user);
         return "redirect:/users/users";
     }
 
     @GetMapping("/edit")
     public String editUserForm(@RequestParam("id") Long id, Model model) {
-        Optional<Optional<User>> foundUser = Optional.ofNullable(userService.findById(id));
-
-        if (foundUser.isPresent()) {
-            model.addAttribute("user", foundUser.get());
+        User user = userService.findById(id);
+            model.addAttribute("user", user);
             return "edituser";
-        } else {
-            model.addAttribute("errorMessage", "Пользователь с таким ID не найден");
-            return "error";
-        }
-    }
+            }
 
     @PostMapping("/edit")
-    public String editUser(@ModelAttribute("user") @Valid User user,
-                           BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "edituser";
-        }
-
+    public String editUser(@ModelAttribute("user") @Valid User user) {
         userService.editUser(user);
         return "redirect:/users/users";
     }
